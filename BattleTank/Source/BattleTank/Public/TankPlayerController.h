@@ -20,6 +20,11 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaTime) override;
+
+private:
+
 	ATank* GetControlledTank() const;
-	
+
+	void AimTowardsCrosshair();
 };
