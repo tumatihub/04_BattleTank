@@ -23,6 +23,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	UPROPERTY(EditAnywhere)
+	float CrosshairXPosition = 0.5f;
+
+	UPROPERTY(EditAnywhere)
+	float CrosshairYPosition = 0.3333f;
 
 	ATank* GetControlledTank() const;
 
