@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Engine/World.h"
+#include "GameFramework/Actor.h"
 #include "Public/TankAIController.h"
 
 void ATankAIController::BeginPlay()
@@ -14,6 +15,16 @@ void ATankAIController::BeginPlay()
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("PlayerTank found at %s"), *PlayerTank->GetName())
 	}
+}
+
+// Called every frame
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetPlayerTank()) {
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+	}
+
 }
 
 ATank* ATankAIController::GetControlledTank() const

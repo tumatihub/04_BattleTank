@@ -19,6 +19,9 @@ public:
 
 	virtual void BeginPlay() override;
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	ATank* GetControlledTank() const;
 	
 	ATank* GetPlayerTank() const;
