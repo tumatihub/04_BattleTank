@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
 #include "Public/TankBarrel.h"
+#include "Engine/World.h"
 
 
 // Sets default values for this component's properties
@@ -63,14 +64,18 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		false,
 		0,
 		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
-		FCollisionResponseParams(ECollisionResponse::ECR_Ignore),
-		ActorsToIgnore,
-		bDebug
+		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 	if (bCanCalculateVelocity) {
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Aim found"), Time)
+
 		MoveBarrelTowards(AimDirection);
+	}
+	else {
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found."), Time)
 	}
 	
 }
