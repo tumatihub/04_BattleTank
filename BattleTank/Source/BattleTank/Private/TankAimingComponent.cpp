@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/ActorComponent.h"
 #include "Components/SceneComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values for this component's properties
@@ -42,5 +43,33 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet,
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), LaunchSpeed);
+	if (!Barrel) { return; }
+
+	bool bCanCalculateVelocity;
+	FVector OutLaunchVelocity(0);
+	FVector StartLocation = Cast<USceneComponent>(Barrel)->GetSocketLocation(FName("Projectile"));
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(GetOwner());
+
+	// Calculate the OutLaunchVelocity
+	bCanCalculateVelocity =  UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams(ECollisionResponse::ECR_Ignore),
+		ActorsToIgnore,
+		bDebug
+	);
+	if (bCanCalculateVelocity) {
+		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		auto TankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *AimDirection.ToString());
+	}
+	
 }
