@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "Components/StaticMeshComponent.h"
 #include "Public/Projectile.h"
+#include "Public/TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -15,6 +16,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 	
 }
 
