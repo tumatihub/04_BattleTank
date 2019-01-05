@@ -25,6 +25,10 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float CrosshairXPosition = 0.5f;
@@ -34,8 +38,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.f;
-
-	ATank* GetControlledTank() const;
 
 	void AimTowardsCrosshair();
 
